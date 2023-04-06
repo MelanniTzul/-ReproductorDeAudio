@@ -1,5 +1,6 @@
 #include <iostream>
-#include "Cancion.cpp"
+#include "cancion.h"
+#include <algorithm>
 using namespace std;
 
 /* FUNCIONES */
@@ -20,10 +21,11 @@ void menuPrincipal()
     int opcion = -1;
     while (opcion != 5)
     {
-    std::cout << "Este texto es de color azul!\n";
+
         // Código de escape ANSI para cambiar el color del texto a rojo
         std::cout << "\033[31m";
-        std::cout << "\n-- MENU PRINCIPAL --\n" << std::endl;
+        std::cout << "\n-- MENU PRINCIPAL --\n"
+                  << std::endl;
         // Código de escape ANSI para restablecer el color del texto a su valor predeterminado
         std::cout << "\033[0m";
         cout << "1. Operaciones de canciones\n";
@@ -62,11 +64,16 @@ void menuPrincipal()
 
 void SubMenuOperacionesCanciones()
 {
+    Song *playlist = nullptr;
+    std::string name, path;
+
+    int cont=0;
+
     int opcion = -1;
     while (opcion != 0)
     {
-        // Código de escape ANSI para cambiar el color del texto a rojo
-        std::cout << "\033[31m";
+        // Código de escape ANSI para cambiar el color del texto a azul
+        std::cout << "\033[34m";
         cout << "\n-- SUBMENU DE OPERACIONES DE CANCIONES--\n";
         // Código de escape ANSI para restablecer el color del texto a su valor predeterminado
         std::cout << "\033[0m";
@@ -87,7 +94,23 @@ void SubMenuOperacionesCanciones()
         switch (opcion)
         {
         case 1:
-            cout << "Insertar" << endl;
+            // Pedir al usuario que ingrese los datos de la cancion
+            std::cout << "Ingrese el nombre de la cancion: ";
+            std::cin.ignore(); // Agregar esta línea para limpiar el búfer de entrada (area de memoria del sistema)
+            //std::cin >> name;
+            std::getline(std::cin, name);
+            // Eliminar espacios en blanco adicionales
+            name.erase(std::remove_if(name.begin(), name.end(), ::isspace), name.end());
+
+            std::cout << "Ingrese el path (ruta) de la cancion: \n";
+            //std::cin >> path;
+            std::getline(std::cin, path);
+
+            // Eliminar espacios en blanco adicionales
+            path.erase(std::remove_if(path.begin(), path.end(), ::isspace), path.end());
+
+            // Ingresar datos a la funcion addSong
+            addSong(playlist, name, path,++cont);
             break;
         case 2:
             cout << "Eliminar" << endl;
@@ -97,6 +120,7 @@ void SubMenuOperacionesCanciones()
             break;
         case 4:
             cout << "Listar canciones" << endl;
+            ListSongs(playlist);
             break;
         }
     }
@@ -108,10 +132,11 @@ void SubMenuOperacionesPlaylist()
     while (opcion != 0)
     {
         // Código de escape ANSI para cambiar el color del texto a rojo
-        std::cout << "\033[31m";
+        std::cout << "\033[34m";
         cout << "\n--SUBMENU OPERACIONES DE PLAYLIST--\n";
         // Código de escape ANSI para restablecer el color del texto a su valor predeterminado
         std::cout << "\033[0m";
+
         cout << "1. Crear\n";
         cout << "2. Eliminar\n";
         cout << "3. Actualizar\n";
@@ -159,8 +184,8 @@ void SubMenuReproduccion()
     int opcion = -1;
     while (opcion != 0)
     {
-        // Código de escape ANSI para cambiar el color del texto a rojo
-        std::cout << "\033[31m";
+        // Código de escape ANSI para cambiar el color del texto a azul
+        std::cout << "\033[34m";
         cout << "\n--SUBMENU REPRODUCCION--\n";
         // Código de escape ANSI para restablecer el color del texto a su valor predeterminado
         std::cout << "\033[0m";
