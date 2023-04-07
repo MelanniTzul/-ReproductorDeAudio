@@ -11,7 +11,7 @@ struct Song
     Song *next;
 };
 
-//Funcion que permite insercion de nuevas canciones a una lista enlazada 
+/*FUNCION QUE PERMITE INSERCION DE NUEVAS CANCIONES A UNA LISTA ENLAZADA*/
 void addSong(Song *&head, string name, string path,int id)
 {
     Song *newSong = new Song();
@@ -34,7 +34,7 @@ void addSong(Song *&head, string name, string path,int id)
     }
 }
 
-//Funcion que imprime las canciones de la lista
+/*FUNCION QUE LISTA LAS CANCIONES EXISTENTES EN LA LISTA*/
 void ListSongs(Song * playlist){
     Song* currSong = playlist;
     while (currSong != nullptr) {
@@ -103,21 +103,20 @@ void deleteSongName(Song *&head, string name) {
 }
 
 
-
-
-/*
-
-
-
+/*FUNCION QUE BUSCA UNA CANCION*/
 Song* searchSong(Song *head, string name) {
-    Song *currSong = head;
-    while (currSong != NULL) {
+    Song *currSong = head;// Inicializa un puntero que apunta a la cabeza de la lista de canciones
+    // Recorre la lista de canciones hasta el final o hasta que se encuentre una coincidencia
+    while (currSong != nullptr) {
+        // Verifica si el nombre de la canción actual coincide con el nombre buscado
         if (currSong->name == name) {
+            // Si se encuentra una coincidencia, devuelve un puntero a la canción actual
             return currSong;
         }
+        // Si no se encuentra una coincidencia, pasa a la siguiente canción en la lista
         currSong = currSong->next;
     }
-    return NULL;
+    // Si se recorre toda la lista y no se encuentra la canción buscada, devuelve NULL
+    return nullptr;
 }
 
-*/

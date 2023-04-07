@@ -67,13 +67,12 @@ void SubMenuOperacionesCanciones()
     Song *playlist = nullptr; // lista de canciones
     std::string name, path;
 
-    int cont = 0;
-    int DeleteSong;
-
+    int cont = 0; // Variable contador para id de cada cancion
     int opcion = -1;
     int op = -1;
     string deleteNameSong = "";
     int deleteId;
+    string searchName = ""; // Variable para almacenar el nombre a buscar
 
     while (opcion != 0)
     {
@@ -110,8 +109,6 @@ void SubMenuOperacionesCanciones()
             // std::cin >> path;
             std::getline(std::cin, path);
 
-            
-
             // Ingresar datos a la funcion addSong
             addSong(playlist, name, path, ++cont);
             break;
@@ -129,29 +126,33 @@ void SubMenuOperacionesCanciones()
                 {
                 case 1:
                     /*ELIMINAR POR NOMBRE*/
-                    if (playlist != nullptr)//verifica si la lista esta llena
+                    if (playlist != nullptr) // verifica si la lista esta llena
                     {
                         ListSongs(playlist);
                         cout << "Ingrese el nombre de la cancion a eliminar: " << endl;
                         cin >> deleteNameSong;
                         deleteSongName(playlist, deleteNameSong); // ELIMINAR CANCION
-                    }else{//si no esta imprime un mensaje que esta vacia
-                        cout <<"La lista esta vacia, ingrese canciones"<<endl;
+                    }
+                    else
+                    { // si no esta imprime un mensaje que esta vacia
+                        cout << "La lista esta vacia, ingrese canciones" << endl;
                     }
 
                     break;
 
                 case 2:
-                    if (playlist!=nullptr)
+                    if (playlist != nullptr)
                     {
                         /*ELIMINAR POR ID*/
-                    ListSongs(playlist); // IMPRIMIR LISTA
-                    cout << "Ingrese el ID de la cancion a eliminar:" << endl;
-                    cin >> deleteId;
-                    deleteSongId(playlist, deleteId); // ELIMINAR CANCION
-                    }else{
-                         cout <<"La lista esta vacia, ingrese canciones"<<endl;
-                    }                  
+                        ListSongs(playlist); // IMPRIMIR LISTA
+                        cout << "Ingrese el ID de la cancion a eliminar:" << endl;
+                        cin >> deleteId;
+                        deleteSongId(playlist, deleteId); // ELIMINAR CANCION
+                    }
+                    else
+                    {
+                        cout << "La lista esta vacia, ingrese canciones" << endl;
+                    }
                     break;
 
                 default:
@@ -162,126 +163,150 @@ void SubMenuOperacionesCanciones()
 
             break;
         case 3:
-            cout << "Buscar nombre" << endl;
-
-            break;
-        case 4:
-            if (playlist!=nullptr)
+            if (playlist != nullptr)
             {
-                cout << "LISTA DE CANCIONES" << endl;
+                cout << "Lista de canciones: " << endl;
                 ListSongs(playlist);
-            }else{
-                 cout <<"La lista esta vacia, ingrese canciones"<<endl;
-            }         
-            break;
+                // Pedir al usuario el nombre de la canción a buscar
+                cout << "Ingrese el nombre de la cancion a buscar: " << endl;
+               // cin >> searchName;
+                std::cin.ignore(); // Agregar esta línea para limpiar el búfer de entrada (area de memoria del sistema)
+                std::getline(std::cin, searchName);
 
-        default:
-            break;
+                // Busca la canción en la lista
+                Song *cancionEncontrada = searchSong(playlist, searchName);
+                if (cancionEncontrada != nullptr)
+                {
+                    // Si se encontró la canción, imprime su nombre y artista
+                    cout << "Canción encontrada: \nCanción: " << cancionEncontrada->name << " \nPath: " << cancionEncontrada->path<< " \nId: " << cancionEncontrada->id << endl;
+                }
+                else
+                {
+                      // Si no se encontró la canción, imprime un mensaje de error
+                      cout << "La canción no fue encontrada en la lista." << endl;
+                }
+            }
+
+                break;
+            case 4:
+                if (playlist != nullptr)
+                {
+                    cout << "LISTA DE CANCIONES" << endl;
+                    ListSongs(playlist);
+                }
+                else
+                {
+                    cout << "La lista esta vacia, ingrese canciones" << endl;
+                }
+                break;
+
+            default:
+                break;
+            }
         }
     }
-}
 
-void SubMenuOperacionesPlaylist()
-{
-    int opcion = -1;
-    while (opcion != 0)
+    void SubMenuOperacionesPlaylist()
     {
-        // Código de escape ANSI para cambiar el color del texto a rojo
-        std::cout << "\033[34m";
-        cout << "\n--SUBMENU OPERACIONES DE PLAYLIST--\n";
-        // Código de escape ANSI para restablecer el color del texto a su valor predeterminado
-        std::cout << "\033[0m";
-
-        cout << "1. Crear\n";
-        cout << "2. Eliminar\n";
-        cout << "3. Actualizar\n";
-        cout << "4. Listar\n";
-        cout << "5. Agregar canciones\n";
-        cout << "6. Eliminar canciones\n";
-        cout << "0. Volver al menu principal\n";
-        cout << "Ingrese la opcion: ";
-        cin >> opcion;
-        while (cin.fail() || opcion < 0 || opcion > 6)
+        int opcion = -1;
+        while (opcion != 0)
         {
-            cin.clear();
-            cin.ignore(256, '\n');
-            cout << "Opcion invalida. Ingrese un valor valido: ";
+            // Código de escape ANSI para cambiar el color del texto a rojo
+            std::cout << "\033[34m";
+            cout << "\n--SUBMENU OPERACIONES DE PLAYLIST--\n";
+            // Código de escape ANSI para restablecer el color del texto a su valor predeterminado
+            std::cout << "\033[0m";
+
+            cout << "1. Crear\n";
+            cout << "2. Eliminar\n";
+            cout << "3. Actualizar\n";
+            cout << "4. Listar\n";
+            cout << "5. Agregar canciones\n";
+            cout << "6. Eliminar canciones\n";
+            cout << "0. Volver al menu principal\n";
+            cout << "Ingrese la opcion: ";
             cin >> opcion;
-        }
-        switch (opcion)
-        {
-        case 1:
-            cout << "Crear" << endl;
-            break;
-        case 2:
-            cout << "Eliminar" << endl;
-            break;
-        case 3:
-            cout << "Actualizar" << endl;
-            break;
-        case 4:
-            cout << "Listar" << endl;
-            break;
+            while (cin.fail() || opcion < 0 || opcion > 6)
+            {
+                cin.clear();
+                cin.ignore(256, '\n');
+                cout << "Opcion invalida. Ingrese un valor valido: ";
+                cin >> opcion;
+            }
+            switch (opcion)
+            {
+            case 1:
+                cout << "Crear" << endl;
+                break;
+            case 2:
+                cout << "Eliminar" << endl;
+                break;
+            case 3:
+                cout << "Actualizar" << endl;
+                break;
+            case 4:
+                cout << "Listar" << endl;
+                break;
 
-        case 5:
-            cout << "Agregar canciones" << endl;
-            break;
+            case 5:
+                cout << "Agregar canciones" << endl;
+                break;
 
-        case 6:
-            cout << "Eliminar canciones" << endl;
-            break;
+            case 6:
+                cout << "Eliminar canciones" << endl;
+                break;
+            }
         }
     }
-}
 
-void SubMenuReproduccion()
-{
-    int opcion = -1;
-    while (opcion != 0)
+    void SubMenuReproduccion()
     {
-        // Código de escape ANSI para cambiar el color del texto a azul
-        std::cout << "\033[34m";
-        cout << "\n--SUBMENU REPRODUCCION--\n";
-        // Código de escape ANSI para restablecer el color del texto a su valor predeterminado
-        std::cout << "\033[0m";
-        cout << "1. Normal\n";
-        cout << "2. Repetir\n";
-        cout << "3. Siguiente\n";
-        cout << "4. Anterior\n";
-        cout << "5. Lista de reproducción\n";
-        cout << "6. Agregar canción a la lista de reproducción\n";
-        cout << "0. Volver al menu principal\n";
-        cout << "Ingrese la opcion: ";
-        cin >> opcion;
-        while (cin.fail() || opcion < 0 || opcion > 6)
+        int opcion = -1;
+        while (opcion != 0)
         {
-            cin.clear();
-            cin.ignore(256, '\n');
-            cout << "Opcion invalida. Ingrese un valor valido: ";
+            // Código de escape ANSI para cambiar el color del texto a azul
+            std::cout << "\033[34m";
+            cout << "\n--SUBMENU REPRODUCCION--\n";
+            // Código de escape ANSI para restablecer el color del texto a su valor predeterminado
+            std::cout << "\033[0m";
+            cout << "1. Normal\n";
+            cout << "2. Repetir\n";
+            cout << "3. Siguiente\n";
+            cout << "4. Anterior\n";
+            cout << "5. Lista de reproducción\n";
+            cout << "6. Agregar canción a la lista de reproducción\n";
+            cout << "0. Volver al menu principal\n";
+            cout << "Ingrese la opcion: ";
             cin >> opcion;
-        }
-        switch (opcion)
-        {
-        case 1:
-            cout << "Normal" << endl;
-            break;
-        case 2:
-            cout << "Repetir" << endl;
-            break;
-        case 3:
-            cout << "Siguiente" << endl;
-            break;
-        case 4:
-            cout << "Anterior" << endl;
-            break;
+            while (cin.fail() || opcion < 0 || opcion > 6)
+            {
+                cin.clear();
+                cin.ignore(256, '\n');
+                cout << "Opcion invalida. Ingrese un valor valido: ";
+                cin >> opcion;
+            }
+            switch (opcion)
+            {
+            case 1:
+                cout << "Normal" << endl;
+                break;
+            case 2:
+                cout << "Repetir" << endl;
+                break;
+            case 3:
+                cout << "Siguiente" << endl;
+                break;
+            case 4:
+                cout << "Anterior" << endl;
+                break;
 
-        case 5:
-            cout << "Lista de reproducción" << endl;
-            break;
+            case 5:
+                cout << "Lista de reproducción" << endl;
+                break;
 
-        case 6:
-            cout << "Agregar canción a la lista de reproducción" << endl;
-            break;
+            case 6:
+                cout << "Agregar canción a la lista de reproducción" << endl;
+                break;
+            }
         }
     }
-}
