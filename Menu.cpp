@@ -1,6 +1,7 @@
 #include <iostream>
 #include "cancion.h"
 #include <algorithm>
+#include <limits>
 using namespace std;
 
 /* FUNCIONES */
@@ -64,12 +65,17 @@ void menuPrincipal()
 
 void SubMenuOperacionesCanciones()
 {
-    Song *playlist = nullptr;
+    Song *playlist = nullptr; // lista de canciones
     std::string name, path;
 
-    int cont=0;
+    int cont = 0;
+    int DeleteSong;
 
     int opcion = -1;
+    int op = -1;
+    string deleteNameSong = "";
+    int deleteId;
+
     while (opcion != 0)
     {
         // Código de escape ANSI para cambiar el color del texto a azul
@@ -87,40 +93,93 @@ void SubMenuOperacionesCanciones()
         while (cin.fail() || opcion < 0 || opcion > 4)
         {
             cin.clear();
-            cin.ignore(256, '\n');
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Limpiar hasta el siguiente carácter de nueva línea
             cout << "Opcion invalida. Ingrese un valor valido: ";
             cin >> opcion;
         }
         switch (opcion)
         {
         case 1:
+            /*INSERTAR CANCIONES*/
             // Pedir al usuario que ingrese los datos de la cancion
             std::cout << "Ingrese el nombre de la cancion: ";
             std::cin.ignore(); // Agregar esta línea para limpiar el búfer de entrada (area de memoria del sistema)
-            //std::cin >> name;
+            // std::cin >> name;
             std::getline(std::cin, name);
             // Eliminar espacios en blanco adicionales
             name.erase(std::remove_if(name.begin(), name.end(), ::isspace), name.end());
 
             std::cout << "Ingrese el path (ruta) de la cancion: \n";
-            //std::cin >> path;
+            // std::cin >> path;
             std::getline(std::cin, path);
 
             // Eliminar espacios en blanco adicionales
             path.erase(std::remove_if(path.begin(), path.end(), ::isspace), path.end());
 
             // Ingresar datos a la funcion addSong
-            addSong(playlist, name, path,++cont);
+            addSong(playlist, name, path, ++cont);
             break;
         case 2:
-            cout << "Eliminar" << endl;
+            /*ELIMINAR CANCIONES*/
+            while (op != 0)
+            {
+                cout << "Eliminar cancion" << endl;
+                cout << " 1. Eliminar por nombre" << endl;
+                cout << " 2. Eliminar por id" << endl;
+                cout << "0. Regresar" << endl;
+                cin >> op;
+
+                switch (op)
+                {
+                case 1:
+                    /*ELIMINAR POR NOMBRE*/
+                    if (playlist != nullptr)//verifica si la lista esta llena
+                    {
+                        ListSongs(playlist);
+                        cout << "Ingrese el nombre de la cancion a eliminar: " << endl;
+                        cin >> deleteNameSong;
+                        deleteSongName(playlist, deleteNameSong); // ELIMINAR CANCION
+                    }else{//si no esta imprime un mensaje que esta vacia
+                        cout <<"La lista esta vacia, ingrese canciones"<<endl;
+                    }
+
+                    break;
+
+                case 2:
+                    if (playlist!=nullptr)
+                    {
+                        /*ELIMINAR POR ID*/
+                    ListSongs(playlist); // IMPRIMIR LISTA
+                    cout << "Ingrese el ID de la cancion a eliminar:" << endl;
+                    cin >> deleteId;
+                    deleteSongId(playlist, deleteId); // ELIMINAR CANCION
+                    }else{
+                         cout <<"La lista esta vacia, ingrese canciones"<<endl;
+                    }                  
+                    break;
+
+                default:
+                    cout << "Opcion no valida. Intente de nuevo." << endl;
+                    break;
+                }
+            }
+
             break;
         case 3:
             cout << "Buscar nombre" << endl;
+            
             break;
         case 4:
-            cout << "Listar canciones" << endl;
-            ListSongs(playlist);
+            if (playlist!=nullptr)
+            {
+                cout << "LISTA DE CANCIONES" << endl;
+                ListSongs(playlist);
+            }else{
+                 cout <<"La lista esta vacia, ingrese canciones"<<endl;
+            }         
+            break;
+
+        default:
             break;
         }
     }
