@@ -41,9 +41,11 @@ void ListSongs(Song * playlist){
         cout << "Cancion: " << currSong->name << endl;
         cout << "Path: " << currSong->path << endl;
         cout << "ID: " << currSong->id << endl;
+        cout <<"\n"<<endl;
         currSong = currSong->next;
     }
 }   
+
 
 /*FUNCION QUE ME ELIMINA UNA CANCION POR ID*/
 void deleteSongId(Song *&head, int id) {
@@ -105,17 +107,7 @@ void deleteSongName(Song *&head, string name) {
 
 /*
 
-void listSongs(Song *head) {
-    if (head == NULL) {
-        cout << "No songs found." << endl;
-    } else {
-        Song *currSong = head;
-        while (currSong != NULL) {
-            cout << currSong->name << " - " << currSong->artist << endl;
-            currSong = currSong->next;
-        }
-    }
-}
+
 
 Song* searchSong(Song *head, string name) {
     Song *currSong = head;

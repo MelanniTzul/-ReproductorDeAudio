@@ -1,6 +1,5 @@
 #include <iostream>
 #include "cancion.h"
-#include <algorithm>
 #include <limits>
 using namespace std;
 
@@ -106,15 +105,12 @@ void SubMenuOperacionesCanciones()
             std::cin.ignore(); // Agregar esta línea para limpiar el búfer de entrada (area de memoria del sistema)
             // std::cin >> name;
             std::getline(std::cin, name);
-            // Eliminar espacios en blanco adicionales
-            name.erase(std::remove_if(name.begin(), name.end(), ::isspace), name.end());
 
             std::cout << "Ingrese el path (ruta) de la cancion: \n";
             // std::cin >> path;
             std::getline(std::cin, path);
 
-            // Eliminar espacios en blanco adicionales
-            path.erase(std::remove_if(path.begin(), path.end(), ::isspace), path.end());
+            
 
             // Ingresar datos a la funcion addSong
             addSong(playlist, name, path, ++cont);
@@ -167,7 +163,7 @@ void SubMenuOperacionesCanciones()
             break;
         case 3:
             cout << "Buscar nombre" << endl;
-            
+
             break;
         case 4:
             if (playlist!=nullptr)
