@@ -77,3 +77,15 @@ void NewPlayList(PlayList *&head, int id, ListSongs *listSongs, Song *listSong)
 
 
 
+
+/*FUNCION QUE LISTA LAS CANCIONES EXISTENTES EN LA LISTA*/
+void ViewPlayList(PlayList *&playlist){
+    PlayList* currSong = playlist;
+    while (currSong != nullptr) {
+        cout << "Play list: " << currSong->name << endl;
+        cout << "Descripcion: " << currSong->description << endl;
+        cout << "ID: " << currSong->id << endl;
+        cout <<"\n"<<endl;
+        currSong = currSong->next;
+    }
+}   

@@ -252,7 +252,9 @@ void SubMenuOperacionesPlaylist(Song *&listSong)
             cout << "Actualizar" << endl;
             break;
         case 4:
-            cout << "Listar" << endl;
+            cout << "LISTA DE PLAY LIST" << endl;
+            ViewPlayList(playlists);
+
             break;
 
         case 5:
