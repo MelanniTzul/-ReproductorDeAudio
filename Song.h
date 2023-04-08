@@ -8,7 +8,7 @@ struct Song
     string name;
     string path;//ruta
     int id;
-    Song *next;
+    Song *next;//apunta a la siguiente cancion
 };
 
 /*FUNCION QUE PERMITE INSERCION DE NUEVAS CANCIONES A UNA LISTA ENLAZADA*/
@@ -25,7 +25,7 @@ void addSong(Song *&head, string name, string path,int id)
     }
     else
     {
-        Song *currSong = head;
+        Song *currSong = head; //currSong (cancion actual)
         while (currSong->next != nullptr)
         {
             currSong = currSong->next;
@@ -35,7 +35,7 @@ void addSong(Song *&head, string name, string path,int id)
 }
 
 /*FUNCION QUE LISTA LAS CANCIONES EXISTENTES EN LA LISTA*/
-void ListSongs(Song * playlist){
+void ViewListSongs(Song *&playlist){
     Song* currSong = playlist;
     while (currSong != nullptr) {
         cout << "Cancion: " << currSong->name << endl;
