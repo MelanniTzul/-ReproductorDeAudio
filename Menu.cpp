@@ -6,7 +6,7 @@ using namespace std;
 /* FUNCIONES */
 void menuPrincipal();
 void SubMenuOperacionesCanciones(Song *&ListSong);
-void SubMenuOperacionesPlaylist(Song *&ListSong);
+void SubMenuOperacionesPlaylist(Song *&ListSong,PlayList *&playlists);
 void SubMenuReproduccion();
 
 int main()
@@ -20,14 +20,15 @@ int main()
 void menuPrincipal()
 {
     Song *listSong = nullptr; // lista de canciones //corregir Song cancion
+    PlayList *playlists = nullptr; //Inicializando el puntero de playlist
     int opcion = -1;
     while (opcion != 5)
     {
 
         // Código de escape ANSI para cambiar el color del texto a rojo
         std::cout << "\033[31m";
-        std::cout << "\n-- MENU PRINCIPAL --\n"
-                  << std::endl;
+        std::cout << "\n    --MENU PRINCIPAL--";
+        std::cout << "\n-- REPRODUCTOR DE AUDIO 🎧 --\n" ;
         // Código de escape ANSI para restablecer el color del texto a su valor predeterminado
         std::cout << "\033[0m";
         cout << "1. Operaciones de canciones\n";
@@ -50,7 +51,7 @@ void menuPrincipal()
             SubMenuOperacionesCanciones(listSong);
             break;
         case 2:
-            SubMenuOperacionesPlaylist(listSong);
+            SubMenuOperacionesPlaylist(listSong,playlists);
             break;
         case 3:
             SubMenuReproduccion();
@@ -209,10 +210,10 @@ void SubMenuOperacionesCanciones(Song *&listSong)
     }
 }
 /*MENU PARA PLAY LIST*/
-void SubMenuOperacionesPlaylist(Song *&listSong)
+void SubMenuOperacionesPlaylist(Song *&listSong, PlayList *&playlists)
 {
     int opcion = -1;
-    PlayList *playlists = nullptr; //Inicializando el puntero de playlist
+    int deletIdPlayList;
     ListSongs *listSongsPlaylist = nullptr; // lista de canciones
     int contPlayList=0;
     while (opcion != 0)
@@ -247,14 +248,31 @@ void SubMenuOperacionesPlaylist(Song *&listSong)
             break;
         case 2:
             cout << "Eliminar" << endl;
+            if (playlists != nullptr)
+                    {
+                        /*ELIMINAR POR ID*/
+                        ViewPlayList(playlists); // IMPRIMIR LISTA
+                        cout << "Ingrese el ID de la Playlist a eliminar:" << endl;
+                        cin >> deletIdPlayList;
+                        deletePlayListId(playlists, deletIdPlayList); // ELIMINAR CANCION
+                        cout<<"Playlist eliminada exitosamente"<<endl;
+                    }
+                    else
+                    {
+                        cout << "La lista de playlist esta vacia, cree playlist" << endl;
+                    }
             break;
         case 3:
             cout << "Actualizar" << endl;
             break;
         case 4:
-            cout << "LISTA DE PLAY LIST" << endl;
-            ViewPlayList(playlists);
-
+            if (playlists!=nullptr)
+            {
+                cout << "LISTA DE PLAYLIST" << endl;
+                ViewPlayList(playlists);
+            }else{
+                cout<<"No existen playlist creadas, cree playlist 🎵"<<endl;
+            }
             break;
 
         case 5:
