@@ -3,7 +3,6 @@
 #include "Song.h"
 using namespace std;
 
-
 // Struc PlayList
 /* Declaración de la estructura Playlist que contiene un name,
 una descripción, numero de canciones y un puntero a la lista de canciones.*/
@@ -126,6 +125,29 @@ void ViewPlayList(PlayList *&playlist)
     }
 }
 
+void UpdatePlaylist(PlayList *&playlists)
+{
+    int idUpdate;
+    string nameUpdate, descriptionUpdate;
+
+    if (playlists != nullptr)
+    {
+        ViewPlayList(playlists);
+        cout << "Ingrese el id de la play list que desea modificar: " << endl;
+        cin >> idUpdate;
+        if (playlists->id == idUpdate)
+        {
+            cout << "Ingrese el nuevo nombre de la playlist" << endl;
+            std::cin.ignore();
+            std::getline(std::cin, nameUpdate);
+            cout << "Ingrese la nueva descripcon de la playlist" << endl;
+            std::getline(std::cin, descriptionUpdate);
+            playlists->name = nameUpdate;
+            playlists->description = descriptionUpdate;
+            cout << "Datos actualizados correctamente: \nNombre: " << playlists->name << "\nDescripcion: " << playlists->description << endl;
+        }
+    }
+}
 /*FUNCION QUE ME ELIMINA UNA PLAY LIST POR ID*/
 void deletePlayListId(PlayList *&playList, int id)
 {
@@ -160,3 +182,4 @@ void deletePlayListId(PlayList *&playList, int id)
         }
     }
 }
+// Actualizar playlist

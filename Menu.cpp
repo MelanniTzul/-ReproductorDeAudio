@@ -6,20 +6,19 @@ using namespace std;
 /* FUNCIONES */
 void menuPrincipal();
 void SubMenuOperacionesCanciones(Song *&song);
-void SubMenuOperacionesPlaylist(Song *&song,PlayList *&playlists);
+void SubMenuOperacionesPlaylist(Song *&song, PlayList *&playlists);
 void SubMenuReproduccion();
 
-
 int main()
-{  
+{
     menuPrincipal();
     return 0;
 }
 /*MENU PRINCIPAL*/
 void menuPrincipal()
 {
-    Song *song = nullptr; // lista de canciones //corregir Song cancion
-    PlayList *playlists = nullptr; //Inicializando el puntero de playlist
+    Song *song = nullptr;          // lista de canciones //corregir Song cancion
+    PlayList *playlists = nullptr; // Inicializando el puntero de playlist
     int opcion = -1;
     while (opcion != 5)
     {
@@ -27,7 +26,7 @@ void menuPrincipal()
         // Código de escape ANSI para cambiar el color del texto a rojo
         std::cout << "\033[31m";
         std::cout << "\n    --MENU PRINCIPAL--";
-        std::cout << "\n-- REPRODUCTOR DE AUDIO 🎧 --\n" ;
+        std::cout << "\n-- REPRODUCTOR DE AUDIO 🎧 --\n";
         // Código de escape ANSI para restablecer el color del texto a su valor predeterminado
         std::cout << "\033[0m";
         cout << "1. Operaciones de canciones\n";
@@ -50,7 +49,7 @@ void menuPrincipal()
             SubMenuOperacionesCanciones(song);
             break;
         case 2:
-            SubMenuOperacionesPlaylist(song,playlists);
+            SubMenuOperacionesPlaylist(song, playlists);
             break;
         case 3:
             SubMenuReproduccion();
@@ -66,7 +65,7 @@ void menuPrincipal()
 /*MENU PARA CANCIONES*/
 void SubMenuOperacionesCanciones(Song *&song)
 {
-    
+
     std::string name, path;
 
     int cont = 0; // Variable contador para id de cada cancion
@@ -165,7 +164,7 @@ void SubMenuOperacionesCanciones(Song *&song)
 
             break;
         case 3:
-        //BUSCAR POR NOMBRE
+            // BUSCAR POR NOMBRE
             if (song != nullptr)
             {
                 cout << "Lista de canciones: " << endl;
@@ -195,7 +194,7 @@ void SubMenuOperacionesCanciones(Song *&song)
             if (song != nullptr)
             {
                 cout << "LISTA DE CANCIONES" << endl;
-                ViewListSongs(song);//Ver toda la lista de canciones
+                ViewListSongs(song); // Ver toda la lista de canciones
             }
             else
             {
@@ -213,9 +212,11 @@ void SubMenuOperacionesPlaylist(Song *&Song, PlayList *&playlists)
 {
     int opcion = -1;
     int deletIdPlayList;
-    //int cont=0;
+    // int cont=0;
+    
+    
     ListSongs *listSongsPlaylist = nullptr; // lista de canciones
-    int contPlayList=0;
+    int contPlayList = 0;
     while (opcion != 0)
     {
         // Código de escape ANSI para cambiar el color del texto a rojo
@@ -242,49 +243,53 @@ void SubMenuOperacionesPlaylist(Song *&Song, PlayList *&playlists)
         }
         switch (opcion)
         {
-        case 1://CREACION DE PLAYLIST
-            cout << "CREACION DE PLAYLIST 🎵" << endl;         
+        case 1: // CREACION DE PLAYLIST
+            cout << "CREACION DE PLAYLIST 🎵" << endl;
             NewPlayList(playlists, ++contPlayList, listSongsPlaylist, Song);
             break;
-        case 2://ELIMINAR
+        case 2: // ELIMINAR
             cout << "Eliminar" << endl;
             if (playlists != nullptr)
-                    {
-                        /*ELIMINAR POR ID*/
-                        ViewPlayList(playlists); // IMPRIMIR LISTA
-                        cout << "Ingrese el ID de la Playlist a eliminar:" << endl;
-                        cin >> deletIdPlayList;
-                        deletePlayListId(playlists, deletIdPlayList); // ELIMINAR CANCION
-                        cout<<"Playlist eliminada exitosamente"<<endl;
-                    }
-                    else
-                    {
-                        cout << "La lista de playlist esta vacia, cree playlist" << endl;
-                    }
+            {
+                /*ELIMINAR POR ID*/
+                ViewPlayList(playlists); // IMPRIMIR LISTA
+                cout << "Ingrese el ID de la Playlist a eliminar:" << endl;
+                cin >> deletIdPlayList;
+                deletePlayListId(playlists, deletIdPlayList); // ELIMINAR CANCION
+                cout << "Playlist eliminada exitosamente" << endl;
+            }
+            else
+            {
+                cout << "La lista de playlist esta vacia, cree playlist" << endl;
+            }
             break;
         case 3:
-            cout << "Actualizar" << endl;
+            cout << "Actualizar" << endl; 
+            UpdatePlaylist(playlists);      
+           
             
+
             break;
-        case 4://LISTA DE PLAYLIST
-            if (playlists!=nullptr)
+        case 4: // LISTA DE PLAYLIST
+            if (playlists != nullptr)
             {
                 cout << "LISTA DE PLAYLIST" << endl;
-                ViewPlayList(playlists);
-            }else{
-                cout<<"No existen playlist creadas, cree playlist 🎵"<<endl;
+                UpdatePlaylist(playlists);
+                
+            }
+            else
+            {
+                cout << "No existen playlist creadas, cree playlist 🎵" << endl;
             }
             break;
 
-        case 5://AGREGAR CANCIONES
+        case 5: // AGREGAR CANCIONES
             cout << "Agregar canciones" << endl;
-            //addSongsPlaylist(listSongsPlaylist, ++cont, Song);
-
-
+            // addSongsPlaylist(listSongsPlaylist, ++cont, Song);
 
             break;
 
-        case 6://ELIMINAR CANCIONES
+        case 6: // ELIMINAR CANCIONES
             cout << "Eliminar canciones" << endl;
             break;
         }
