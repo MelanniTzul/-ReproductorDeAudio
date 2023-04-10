@@ -108,8 +108,6 @@ void NewPlayList(PlayList *&head, int id, ListSongs *&listSongs, Song *&song)
     cout << "Playlist creada exitosamente." << endl;
 }
 
-
-
 /*FUNCION QUE LISTA LAS PLAY LIST EXISTENTES EN LA LISTA*/
 void ViewPlayList(PlayList *&playlist)
 {
@@ -183,3 +181,64 @@ void deletePlayListId(PlayList *&playList, int id)
     }
 }
 // Actualizar playlist
+
+void listarPlaylistCancion(PlayList *&playlists)
+{
+    int opcion = -1;
+    
+
+    while (opcion != 0)
+    {
+        cout << "1.Listar playlist" << endl;
+        cout << "2.Listar canciones de la playlist" << endl;
+        cout << "0.Regresar" << endl;
+        cin >> opcion;
+
+         while (cin.fail() || opcion < 0 || opcion > 2)
+        {
+            cin.clear();
+            cin.ignore(256, '\n');
+            cout << "Opcion invalida. Ingrese un valor valido: ";
+            cin >> opcion;
+        }
+
+        switch (opcion)
+        {
+        case 1:
+            // LISTAR PLAYLIST
+            if (playlists != nullptr)
+            {
+                cout << "LISTA DE PLAYLIST" << endl;
+                PlayList *temp = playlists;
+                while (temp != nullptr)
+                {
+                    cout << "Nombre de la playlist: " << temp->name << "\nDescripcion: " << temp->description << endl;
+                    temp = temp->next;
+                }
+            }
+            else
+            {
+                cout << "No existen playlist creadas, cree playlist 🎵" << endl;
+            }
+
+            break;
+
+        case 2:
+            if (playlists == nullptr)
+            {
+                cout << "No existen playlist creadas, cree playlist 🎵" << endl;
+            }
+            else
+            { // LISTAR LAS CANCIONES DE LA PLAY LIST
+
+            
+            }
+
+            break;
+
+        default:
+            cout << "Opcion no valida. Intente de nuevo." << endl;
+            break;
+        }
+    }
+}

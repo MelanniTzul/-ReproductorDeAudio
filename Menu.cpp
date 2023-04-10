@@ -89,6 +89,8 @@ void SubMenuOperacionesCanciones(Song *&song)
         cout << "0. Volver al menu principal\n";
         cout << "Ingrese la opcion: ";
         cin >> opcion;
+        //cin.fail() es una función en C++ que se utiliza para comprobar si la última operación de entrada en cin ha fallado.
+        //Esta función devuelve true si la operación de entrada ha fallado y false si la operación ha tenido éxito.
         while (cin.fail() || opcion < 0 || opcion > 4)
         {
             cin.clear();
@@ -103,7 +105,6 @@ void SubMenuOperacionesCanciones(Song *&song)
             // Pedir al usuario que ingrese los datos de la cancion
             std::cout << "Ingrese el nombre de la cancion: ";
             std::cin.ignore(); // Agregar esta línea para limpiar el búfer de entrada (area de memoria del sistema)
-            // std::cin >> name;
             std::getline(std::cin, name);
 
             std::cout << "Ingrese el path (ruta) de la cancion: \n";
@@ -213,8 +214,7 @@ void SubMenuOperacionesPlaylist(Song *&Song, PlayList *&playlists)
     int opcion = -1;
     int deletIdPlayList;
     // int cont=0;
-    
-    
+
     ListSongs *listSongsPlaylist = nullptr; // lista de canciones
     int contPlayList = 0;
     while (opcion != 0)
@@ -264,23 +264,12 @@ void SubMenuOperacionesPlaylist(Song *&Song, PlayList *&playlists)
             }
             break;
         case 3:
-            cout << "Actualizar" << endl; 
-            UpdatePlaylist(playlists);      
-           
-            
+            cout << "Actualizar" << endl;
+            UpdatePlaylist(playlists);
 
             break;
         case 4: // LISTA DE PLAYLIST
-            if (playlists != nullptr)
-            {
-                cout << "LISTA DE PLAYLIST" << endl;
-                UpdatePlaylist(playlists);
-                
-            }
-            else
-            {
-                cout << "No existen playlist creadas, cree playlist 🎵" << endl;
-            }
+            listarPlaylistCancion(playlists);
             break;
 
         case 5: // AGREGAR CANCIONES
