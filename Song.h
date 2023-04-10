@@ -12,12 +12,21 @@ struct Song
 };
 
 /*FUNCION QUE PERMITE INSERCION DE NUEVAS CANCIONES A UNA LISTA ENLAZADA*/
+// La función "addSong" agrega una nueva canción a una lista enlazada de canciones.
+// Recibe cuatro parámetros:
+// - Un puntero a un puntero de la estructura "Song" llamado "head", que apunta al primer nodo de la lista.
+// - Una cadena "name" que representa el nombre de la nueva canción.
+// - Una cadena "path" que representa la ubicación de la nueva canción en el disco.
+// - Un entero "id" que representa el identificador único de la nueva canción.
 void addSong(Song *&head, string name, string path,int id)
 {
+    // Se crea un nuevo objeto "Song" en el heap utilizando el operador "new" y se asigna a un puntero "newSong".
     Song *newSong = new Song();
+    // Se asignan los valores de "name", "path" y "id" al objeto "newSong".
     newSong->name = name;
     newSong->path = path;
     newSong->id=id;
+    // Se establece el campo "next" del objeto "newSong" en "nullptr", lo que indica que no hay ningún otro nodo siguiente en la lista.
     newSong->next = nullptr;
     if (head == nullptr)
     {
@@ -25,12 +34,13 @@ void addSong(Song *&head, string name, string path,int id)
     }
     else
     {
-        Song *currSong = head; //currSong (cancion actual)
+        // Si el puntero "head" no es "nullptr", se recorre la lista enlazada hasta encontrar el último nodo, y se agrega el nodo "newSong" al final de la lista.
+        Song *currSong = head; //currSong (cancion actual)   //// Se inicializa un puntero "currSong" al primer nodo de la lista.
         while (currSong->next != nullptr)
         {
-            currSong = currSong->next;
+            currSong = currSong->next;//// Se actualiza "currSong" al siguiente nodo de la lista.
         }
-        currSong->next = newSong;
+        currSong->next = newSong;// Se agrega "newSong" al final de la lista.
     }
 }
 

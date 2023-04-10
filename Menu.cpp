@@ -5,21 +5,20 @@ using namespace std;
 
 /* FUNCIONES */
 void menuPrincipal();
-void SubMenuOperacionesCanciones(Song *&ListSong);
-void SubMenuOperacionesPlaylist(Song *&ListSong,PlayList *&playlists);
+void SubMenuOperacionesCanciones(Song *&song);
+void SubMenuOperacionesPlaylist(Song *&song,PlayList *&playlists);
 void SubMenuReproduccion();
 
-int main()
-{
-    
-    menuPrincipal();
 
+int main()
+{  
+    menuPrincipal();
     return 0;
 }
 /*MENU PRINCIPAL*/
 void menuPrincipal()
 {
-    Song *listSong = nullptr; // lista de canciones //corregir Song cancion
+    Song *song = nullptr; // lista de canciones //corregir Song cancion
     PlayList *playlists = nullptr; //Inicializando el puntero de playlist
     int opcion = -1;
     while (opcion != 5)
@@ -48,10 +47,10 @@ void menuPrincipal()
         switch (opcion)
         {
         case 1:
-            SubMenuOperacionesCanciones(listSong);
+            SubMenuOperacionesCanciones(song);
             break;
         case 2:
-            SubMenuOperacionesPlaylist(listSong,playlists);
+            SubMenuOperacionesPlaylist(song,playlists);
             break;
         case 3:
             SubMenuReproduccion();
@@ -65,7 +64,7 @@ void menuPrincipal()
     }
 }
 /*MENU PARA CANCIONES*/
-void SubMenuOperacionesCanciones(Song *&listSong)
+void SubMenuOperacionesCanciones(Song *&song)
 {
     
     std::string name, path;
@@ -113,7 +112,7 @@ void SubMenuOperacionesCanciones(Song *&listSong)
             std::getline(std::cin, path);
 
             // Ingresar datos a la funcion addSong
-            addSong(listSong, name, path, ++cont);
+            addSong(song, name, path, ++cont);
             break;
         case 2:
             /*ELIMINAR CANCIONES*/
@@ -129,12 +128,12 @@ void SubMenuOperacionesCanciones(Song *&listSong)
                 {
                 case 1:
                     /*ELIMINAR POR NOMBRE*/
-                    if (listSong != nullptr) // verifica si la lista esta llena
+                    if (song != nullptr) // verifica si la lista esta llena
                     {
-                        ViewListSongs(listSong);
+                        ViewListSongs(song);
                         cout << "Ingrese el nombre de la cancion a eliminar: " << endl;
                         cin >> deleteNameSong;
-                        deleteSongName(listSong, deleteNameSong); // ELIMINAR CANCION
+                        deleteSongName(song, deleteNameSong); // ELIMINAR CANCION
                     }
                     else
                     { // si no esta imprime un mensaje que esta vacia
@@ -144,13 +143,13 @@ void SubMenuOperacionesCanciones(Song *&listSong)
                     break;
 
                 case 2:
-                    if (listSong != nullptr)
+                    if (song != nullptr)
                     {
                         /*ELIMINAR POR ID*/
-                        ViewListSongs(listSong); // IMPRIMIR LISTA
+                        ViewListSongs(song); // IMPRIMIR LISTA
                         cout << "Ingrese el ID de la cancion a eliminar:" << endl;
                         cin >> deleteId;
-                        deleteSongId(listSong, deleteId); // ELIMINAR CANCION
+                        deleteSongId(song, deleteId); // ELIMINAR CANCION
                     }
                     else
                     {
@@ -167,10 +166,10 @@ void SubMenuOperacionesCanciones(Song *&listSong)
             break;
         case 3:
         //BUSCAR POR NOMBRE
-            if (listSong != nullptr)
+            if (song != nullptr)
             {
                 cout << "Lista de canciones: " << endl;
-                ViewListSongs(listSong);
+                ViewListSongs(song);
                 // Pedir al usuario el nombre de la canción a buscar
                 cout << "Ingrese el nombre de la cancion a buscar: " << endl;
                 // cin >> searchName;
@@ -178,7 +177,7 @@ void SubMenuOperacionesCanciones(Song *&listSong)
                 std::getline(std::cin, searchName);
 
                 // Busca la canción en la lista
-                Song *cancionEncontrada = searchSong(listSong, searchName);
+                Song *cancionEncontrada = searchSong(song, searchName);
                 if (cancionEncontrada != nullptr)
                 {
                     // Si se encontró la canción, imprime su nombre y artista
@@ -193,10 +192,10 @@ void SubMenuOperacionesCanciones(Song *&listSong)
 
             break;
         case 4:
-            if (listSong != nullptr)
+            if (song != nullptr)
             {
                 cout << "LISTA DE CANCIONES" << endl;
-                ViewListSongs(listSong);//Ver toda la lista de canciones
+                ViewListSongs(song);//Ver toda la lista de canciones
             }
             else
             {
@@ -210,10 +209,11 @@ void SubMenuOperacionesCanciones(Song *&listSong)
     }
 }
 /*MENU PARA PLAY LIST*/
-void SubMenuOperacionesPlaylist(Song *&listSong, PlayList *&playlists)
+void SubMenuOperacionesPlaylist(Song *&Song, PlayList *&playlists)
 {
     int opcion = -1;
     int deletIdPlayList;
+    //int cont=0;
     ListSongs *listSongsPlaylist = nullptr; // lista de canciones
     int contPlayList=0;
     while (opcion != 0)
@@ -242,11 +242,11 @@ void SubMenuOperacionesPlaylist(Song *&listSong, PlayList *&playlists)
         }
         switch (opcion)
         {
-        case 1:
-            cout << "CREACION DE PLAY LIST 🎵" << endl;         
-            NewPlayList(playlists, ++contPlayList, listSongsPlaylist, listSong);
+        case 1://CREACION DE PLAYLIST
+            cout << "CREACION DE PLAYLIST 🎵" << endl;         
+            NewPlayList(playlists, ++contPlayList, listSongsPlaylist, Song);
             break;
-        case 2:
+        case 2://ELIMINAR
             cout << "Eliminar" << endl;
             if (playlists != nullptr)
                     {
@@ -264,8 +264,9 @@ void SubMenuOperacionesPlaylist(Song *&listSong, PlayList *&playlists)
             break;
         case 3:
             cout << "Actualizar" << endl;
+            
             break;
-        case 4:
+        case 4://LISTA DE PLAYLIST
             if (playlists!=nullptr)
             {
                 cout << "LISTA DE PLAYLIST" << endl;
@@ -275,11 +276,15 @@ void SubMenuOperacionesPlaylist(Song *&listSong, PlayList *&playlists)
             }
             break;
 
-        case 5:
+        case 5://AGREGAR CANCIONES
             cout << "Agregar canciones" << endl;
+            //addSongsPlaylist(listSongsPlaylist, ++cont, Song);
+
+
+
             break;
 
-        case 6:
+        case 6://ELIMINAR CANCIONES
             cout << "Eliminar canciones" << endl;
             break;
         }

@@ -3,6 +3,7 @@
 #include "Song.h"
 using namespace std;
 
+
 // Struc PlayList
 /* Declaración de la estructura Playlist que contiene un name,
 una descripción, numero de canciones y un puntero a la lista de canciones.*/
@@ -24,11 +25,50 @@ struct PlayList
     PlayList *next;       // siguiente cancion
 };
 
+/*Agregar canciones a la playlist*/
+void addSongsPlaylist(ListSongs *&head, int id, Song *&song)
+{
+    int idCancion;
+    if (song == nullptr)
+    {
+
+        cout << "No existe canciones, ingrese canciones" << endl;
+        return; // para que ya no siga
+    }
+    else
+    {
+        ViewListSongs(song); // listamos canciones
+        cout << "Ingrese el id de la cancion que desea agregar a la playlist" << endl;
+        cin >> idCancion;
+        if (song->id == idCancion)
+        {
+            ListSongs *newListSongs = new ListSongs();
+            newListSongs->song;           // Asignamos cancion
+            newListSongs->next = nullptr; // se establece el campo null,lo que indica que no hay ningún otro nodo siguiente en la lista
+            if (head == nullptr)
+            {
+                head = newListSongs;
+            }
+            else
+            {
+                // si el puntero head no es nullptr, se recorre la lista enlazada hasta encontrar
+                // el ultimo nodo, y se agrega el nodo newListSongs al final de la lista
+                ListSongs *cancionActual = head; // Se inicializa un puntero "cancionActual" al primer nodo de la lista.
+                while (cancionActual->next != nullptr)
+                {
+                    cancionActual = cancionActual->next; // se actualiza cancionActual al siguiente nodo de la lista
+                }
+                cancionActual->next = newListSongs;
+            }
+        }
+    }
+}
+
 // listaPlaylists: es un puntero a un arreglo de objetos PlayList, que almacena todas las playlists creadas en el programa.
 // id: es una referencia a un entero que indica el número de playlists que hay en el arreglo listaPlaylists
 // listSong: es un puntero a un arreglo de objetos Song, que contiene todas las canciones disponibles en el programa.
 //  función para crear una nueva playlist
-void NewPlayList(PlayList *&head, int id, ListSongs *listSongs, Song *listSong)
+void NewPlayList(PlayList *&head, int id, ListSongs *&listSongs, Song *&song)
 {
     string name, description;
     int numSongs;
@@ -47,9 +87,9 @@ void NewPlayList(PlayList *&head, int id, ListSongs *listSongs, Song *listSong)
     nuevaPlaylist->description = description;
     nuevaPlaylist->id = id;
 
-    if (head == nullptr)
+    if (head == nullptr) // si es diferente de null
     {
-        head = nuevaPlaylist;
+        head = nuevaPlaylist; // se crea una playlist
     }
     else
     {
@@ -63,18 +103,13 @@ void NewPlayList(PlayList *&head, int id, ListSongs *listSongs, Song *listSong)
 
     if (numSongs == 1)
     {
-        if (listSong == nullptr)
-        {
-            cout << "No existe canciones, ingrese canciones" << endl;
-            return; // para que ya no siga
-        }
-        ViewListSongs(listSong);
-    }
-    else
-    {
+        // Llamar a la funcion ingresar cancion
+        addSongsPlaylist(listSongs, id, song);
     }
     cout << "Playlist creada exitosamente." << endl;
 }
+
+
 
 /*FUNCION QUE LISTA LAS PLAY LIST EXISTENTES EN LA LISTA*/
 void ViewPlayList(PlayList *&playlist)
@@ -95,35 +130,33 @@ void ViewPlayList(PlayList *&playlist)
 void deletePlayListId(PlayList *&playList, int id)
 {
     int deleteId;
-    
 
     // verificar si la lista esta vacia
     if (playList == nullptr)
     {
         return; // Si la lista está vacía, simplemente retorna sin hacer nada
     }
-    // Si la primera canción de la lista coincide con el id, eliminarla
+    // Si la primera playlist de la lista coincide con el id, eliminarla
     else if (playList->id == id)
-    {                              // Verifica si el primer elemento de la lista coincide con el id de la canción que se va a eliminar
+    {                              // Verifica si el primer elemento de la lista coincide con el id de la playlist que se va a eliminar
         PlayList *temp = playList; // Si coincide, se crea un puntero temporal que apunta a la cabeza de la lista
         playList = playList->next; // Se actualiza la cabeza de la lista para que apunte al segundo elemento
         delete temp;               // Se elimina el primer elemento utilizando el puntero temporal
     }
-    // Si la canción no es la primera, buscarla en la lista
+    // Si la playlist no es la primera, buscarla en la lista
     else
-    {                                        // Si el primer elemento no coincide con el id de la canción que se va a eliminar
+    {                                        // Si el primer elemento no coincide con el id de la playlist que se va a eliminar
         PlayList *prevSong = playList;       // Se crea un puntero que apunta al primer elemento de la lista
         PlayList *currSong = playList->next; // Se crea otro puntero que apunta al segundo elemento de la lista
         while (currSong != nullptr && currSong->id != id)
-        {                              // Se recorre la lista hasta encontrar el elemento que coincide con el id de la canción o llegar al final de la lista
+        {                              // Se recorre la lista hasta encontrar el elemento que coincide con el id de la playlist o llegar al final de la lista
             prevSong = currSong;       // Se actualiza el puntero previo al elemento actual
             currSong = currSong->next; // Se actualiza el puntero al elemento actual
         }
         if (currSong != nullptr)
-        {                                    // Si se encontró un elemento que coincide con el id de la canción
+        {                                    // Si se encontró un elemento que coincide con el id de la playlist
             prevSong->next = currSong->next; // Se actualiza el puntero del elemento anterior para saltar el elemento actual
             delete currSong;                 // Se elimina el elemento actual
         }
     }
 }
-
