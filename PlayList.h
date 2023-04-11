@@ -36,7 +36,7 @@ void addSongsPlaylist(ListSongs *&head, int id, Song *&song)
     }
     else
     {
-        while (idCancion!=0)
+        while (idCancion != 0)
         {
             ViewListSongs(song); // listamos canciones
             cout << "Ingrese el id de la cancion que desea agregar a la playlist o 0 para salir" << endl;
@@ -286,5 +286,51 @@ void listarPlaylistCancion(PlayList *&playlists, ListSongs *&listSongs)
             cout << "Opcion no valida. Intente de nuevo." << endl;
             break;
         }
+    }
+}
+
+/*AGREGAR CANCIONES */
+void addSongPlaylist(PlayList *&playlist, int id, Song *&song)
+{
+    int idPlaylist;
+    // LISTAR PLAYLIST
+    if (playlist != nullptr)
+    {
+        cout << "LISTA DE PLAYLIST" << endl;
+        PlayList *temp = playlist;
+        while (temp != nullptr)
+        {
+            cout << "Nombre de la playlist: " << temp->name << "\nDescripcion: " << temp->description << "\nid: " << temp->id << endl;
+            temp = temp->next;
+        }
+        /*seleccionamos playlist*/
+        cout << "Ingrese el id de la playlista a agregar canciones" << endl;
+        cin >> idPlaylist;
+        temp = playlist; // inicializar playlist desde el principio
+        while (temp != nullptr && temp->id != idPlaylist)
+        {
+
+            temp = temp->next; // buscando playlist
+        }
+
+        if (temp == nullptr) // verificamos si encontro playlist
+        {
+            cout << "Playlist no encontrada" << endl;
+            return; // acabar la ejecucion no seguir
+        }
+
+        // Mostrar pleilis encontrada
+        cout << "Nombre de la playlist: " << temp->name << endl;
+        ListSongs *listplaylist = temp->listSongs; // obtener la lista de canciones
+
+        // Canciones existentes
+        while (listplaylist != nullptr)
+        {
+            cout << "Canciones de la playlist: " << listplaylist->song->name << "" << endl;
+            listplaylist = listplaylist->next; // se actualiza cancionActual al siguiente nodo de la lista
+        }
+
+        // Llamar a la funcion ingresar cancion
+        addSongsPlaylist(temp->listSongs, id, song);
     }
 }

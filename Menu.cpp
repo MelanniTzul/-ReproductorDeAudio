@@ -5,8 +5,8 @@ using namespace std;
 
 /* FUNCIONES */
 void menuPrincipal();
-void SubMenuOperacionesCanciones(Song *&song);
-void SubMenuOperacionesPlaylist(Song *&song, PlayList *&playlists, ListSongs *&listSongsPlaylist);
+void SubMenuOperacionesCanciones(Song *&song, int &cont);
+void SubMenuOperacionesPlaylist(Song *&song, PlayList *&playlists, ListSongs *&listSongsPlaylist, int &contPlayList);
 void SubMenuReproduccion();
 
 int main()
@@ -20,6 +20,8 @@ void menuPrincipal()
     Song *song = nullptr;          // lista de canciones //corregir Song cancion
     PlayList *playlists = nullptr; // Inicializando el puntero de playlist
     ListSongs *listSongsPlaylist = nullptr; // lista de canciones
+    int cont = 0; // Variable contador para id de cada cancion
+     int contPlayList = 0;
     int opcion = -1;
     while (opcion != 5)
     {
@@ -47,10 +49,10 @@ void menuPrincipal()
         switch (opcion)
         {
         case 1:
-            SubMenuOperacionesCanciones(song);
+            SubMenuOperacionesCanciones(song, cont);
             break;
         case 2:
-            SubMenuOperacionesPlaylist(song, playlists, listSongsPlaylist);
+            SubMenuOperacionesPlaylist(song, playlists, listSongsPlaylist, contPlayList);
             break;
         case 3:
             SubMenuReproduccion();
@@ -64,12 +66,10 @@ void menuPrincipal()
     }
 }
 /*MENU PARA CANCIONES*/
-void SubMenuOperacionesCanciones(Song *&song)
+void SubMenuOperacionesCanciones(Song *&song, int &cont)
 {
 
     std::string name, path;
-
-    int cont = 0; // Variable contador para id de cada cancion
     int opcion = -1;
     int op = -1;
     string deleteNameSong = "";
@@ -210,14 +210,14 @@ void SubMenuOperacionesCanciones(Song *&song)
     }
 }
 /*MENU PARA PLAY LIST*/
-void SubMenuOperacionesPlaylist(Song *&Song, PlayList *&playlists, ListSongs *&listSongsPlaylist)
+void SubMenuOperacionesPlaylist(Song *&song, PlayList *&playlists, ListSongs *&listSongsPlaylist, int &contPlayList)
 {
     int opcion = -1;
     int deletIdPlayList;
-    // int cont=0;
+    int cont=0;
 
    
-    int contPlayList = 0;
+   
     while (opcion != 0)
     {
         // Código de escape ANSI para cambiar el color del texto a rojo
@@ -246,7 +246,7 @@ void SubMenuOperacionesPlaylist(Song *&Song, PlayList *&playlists, ListSongs *&l
         {
         case 1: // CREACION DE PLAYLIST
             cout << "CREACION DE PLAYLIST 🎵" << endl;
-            NewPlayList(playlists, ++contPlayList, listSongsPlaylist, Song);
+            NewPlayList(playlists, ++contPlayList, listSongsPlaylist, song);
             break;
         case 2: // ELIMINAR
             cout << "Eliminar" << endl;
@@ -275,7 +275,7 @@ void SubMenuOperacionesPlaylist(Song *&Song, PlayList *&playlists, ListSongs *&l
 
         case 5: // AGREGAR CANCIONES
             cout << "Agregar canciones" << endl;
-            // addSongsPlaylist(listSongsPlaylist, ++cont, Song);
+            addSongPlaylist(playlists,++cont,song);
 
             break;
 
