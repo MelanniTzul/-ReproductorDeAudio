@@ -289,7 +289,7 @@ void listarPlaylistCancion(PlayList *&playlists, ListSongs *&listSongs)
     }
 }
 
-/*AGREGAR CANCIONES */
+/*FUNCION AGREGAR CANCIONES */
 void addSongPlaylist(PlayList *&playlist, int id, Song *&song)
 {
     int idPlaylist;
@@ -334,3 +334,109 @@ void addSongPlaylist(PlayList *&playlist, int id, Song *&song)
         addSongsPlaylist(temp->listSongs, id, song);
     }
 }
+
+/*FUNCION ELIMINAR CANCION*/
+void deleteSong(PlayList *&playlist, int id, ListSongs *&listSongs)
+{
+    int idPlaylist;
+    // LISTAR PLAYLIST
+    if (playlist != nullptr)
+    {
+        cout << "LISTA DE PLAYLIST" << endl;
+        PlayList *temp = playlist;
+        while (temp != nullptr)
+        {
+            cout << "Nombre de la playlist: " << temp->name << "\nDescripcion: " << temp->description << "\nid: " << temp->id << endl;
+            temp = temp->next;
+        }
+
+        /*seleccionamos playlist*/
+        cout << "Ingrese el id de la playlista que desea eliminar canciones" << endl;
+        cin >> idPlaylist;
+        temp = playlist; // inicializar playlist desde el principio
+        while (temp != nullptr && temp->id != idPlaylist)
+        {
+
+            temp = temp->next; // buscando playlist
+        }
+
+        if (temp == nullptr) // verificamos si encontro playlist
+        {
+            cout << "Playlist no encontrada" << endl;
+            return; // acabar la ejecucion no seguir
+        }
+
+        // Mostrar pleilis encontrada
+        cout << "Nombre de la playlist: " << temp->name <<"id:\n" << temp->id<<endl;
+        ListSongs *listplaylist = temp->listSongs; // obtener la lista de canciones
+
+        // Canciones existentes
+        while (listplaylist != nullptr)
+        {
+            cout <<" \nCanciones de la playlist: "
+                 << "\nNombre:" << listplaylist->song->name << "\nPath: " << listplaylist->song->path << "\nId: " << listplaylist->song->id << endl;
+            listplaylist = listplaylist->next; // se actualiza cancionActual al siguiente nodo de la lista
+        }
+
+        
+        int idCancion=-1;
+        if (listSongs== nullptr)
+        {
+
+            cout << "No existe canciones, ingrese canciones" << endl;
+            return; // para que ya no siga
+        }
+        else
+        {
+            while (idCancion != 0)
+            {
+                //ViewListSongs(song); // listamos canciones
+                cout << "Ingrese el id de la cancion que desea eliminar de la playlist o 0 para salir" << endl;
+                cin >> idCancion;
+                ListSongs *temp = listSongs;
+                while (temp != nullptr && temp->song->id != idCancion)
+                {
+                    temp = temp->next; // buscando playlist
+                }
+                // No hay cancion
+                if (temp == nullptr)
+                {
+                    cout << "Cancion no encontrada" << endl;
+                    return;
+                }
+
+                // verificar si la lista esta vacia
+                if (temp == nullptr)
+                {
+                    return; // Si la lista está vacía, simplemente retorna sin hacer nada
+                }
+                // Si la primera canción de la lista coincide con el id, eliminarla
+                else if (temp->song->id == idCancion)
+                {                      // Verifica si el primer elemento de la lista coincide con el id de la canción que se va a eliminar
+                    ListSongs *deleteSong= temp; // Si coincide, se crea un puntero temporal que apunta a la cabeza de la lista
+                    deleteSong = deleteSong->next; // Se actualiza la cabeza de la lista para que apunte al segundo elemento
+                    delete deleteSong;       // Se elimina el primer elemento utilizando el puntero temporal
+                    cout<<"Cancion eliminada exitosamente"<<endl;
+                }
+                // Si la canción no es la primera, buscarla en la lista
+                else
+                {                                // Si el primer elemento no coincide con el id de la canción que se va a eliminar
+                    ListSongs *prevSong = temp;       // Se crea un puntero que apunta al primer elemento de la lista
+                    ListSongs *currSong = temp->next; // Se crea otro puntero que apunta al segundo elemento de la lista
+                    while (currSong != nullptr && currSong->song->id != idCancion)
+                    {                              // Se recorre la lista hasta encontrar el elemento que coincide con el id de la canción o llegar al final de la lista
+                        prevSong = currSong;       // Se actualiza el puntero previo al elemento actual
+                        currSong = currSong->next; // Se actualiza el puntero al elemento actual
+                    }
+                    if (currSong != nullptr)
+                    {                                    // Si se encontró un elemento que coincide con el id de la canción
+                        prevSong->next = currSong->next; // Se actualiza el puntero del elemento anterior para saltar el elemento actual
+                        delete currSong;                 // Se elimina el elemento actual
+                        cout<<"Cancion eliminada exitosamente"<<endl;
+                    }
+                }
+            }
+        }
+    }
+}
+

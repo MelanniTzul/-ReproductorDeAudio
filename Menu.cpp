@@ -281,6 +281,7 @@ void SubMenuOperacionesPlaylist(Song *&song, PlayList *&playlists, ListSongs *&l
 
         case 6: // ELIMINAR CANCIONES
             cout << "Eliminar canciones" << endl;
+            deleteSong(playlists,cont,listSongsPlaylist);
             break;
         }
     }
