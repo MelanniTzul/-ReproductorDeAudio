@@ -1,0 +1,12 @@
+<Insertar>
+   <cancion>
+       <Nombre> nombreCancion </Nombre>
+       <path> pathCancion </Path>
+       <Pos> posicionEnElArreglo <Pos>
+   </cancion>
+   <cancion>
+       <Nombre> nombreCancion </Nombre>
+       <path> pathCancion </Path>
+   </cancion>
+</Insertar>
+
