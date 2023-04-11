@@ -6,7 +6,7 @@ using namespace std;
 /* FUNCIONES */
 void menuPrincipal();
 void SubMenuOperacionesCanciones(Song *&song);
-void SubMenuOperacionesPlaylist(Song *&song, PlayList *&playlists);
+void SubMenuOperacionesPlaylist(Song *&song, PlayList *&playlists, ListSongs *&listSongsPlaylist);
 void SubMenuReproduccion();
 
 int main()
@@ -19,6 +19,7 @@ void menuPrincipal()
 {
     Song *song = nullptr;          // lista de canciones //corregir Song cancion
     PlayList *playlists = nullptr; // Inicializando el puntero de playlist
+    ListSongs *listSongsPlaylist = nullptr; // lista de canciones
     int opcion = -1;
     while (opcion != 5)
     {
@@ -49,7 +50,7 @@ void menuPrincipal()
             SubMenuOperacionesCanciones(song);
             break;
         case 2:
-            SubMenuOperacionesPlaylist(song, playlists);
+            SubMenuOperacionesPlaylist(song, playlists, listSongsPlaylist);
             break;
         case 3:
             SubMenuReproduccion();
@@ -209,13 +210,13 @@ void SubMenuOperacionesCanciones(Song *&song)
     }
 }
 /*MENU PARA PLAY LIST*/
-void SubMenuOperacionesPlaylist(Song *&Song, PlayList *&playlists)
+void SubMenuOperacionesPlaylist(Song *&Song, PlayList *&playlists, ListSongs *&listSongsPlaylist)
 {
     int opcion = -1;
     int deletIdPlayList;
     // int cont=0;
 
-    ListSongs *listSongsPlaylist = nullptr; // lista de canciones
+   
     int contPlayList = 0;
     while (opcion != 0)
     {
@@ -269,7 +270,7 @@ void SubMenuOperacionesPlaylist(Song *&Song, PlayList *&playlists)
 
             break;
         case 4: // LISTA DE PLAYLIST
-            listarPlaylistCancion(playlists);
+            listarPlaylistCancion(playlists, listSongsPlaylist);
             break;
 
         case 5: // AGREGAR CANCIONES

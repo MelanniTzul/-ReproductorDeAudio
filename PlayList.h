@@ -36,13 +36,26 @@ void addSongsPlaylist(ListSongs *&head, int id, Song *&song)
     }
     else
     {
-        ViewListSongs(song); // listamos canciones
-        cout << "Ingrese el id de la cancion que desea agregar a la playlist" << endl;
-        cin >> idCancion;
-        if (song->id == idCancion)
+        while (idCancion!=0)
         {
+            ViewListSongs(song); // listamos canciones
+            cout << "Ingrese el id de la cancion que desea agregar a la playlist o 0 para salir" << endl;
+            cin >> idCancion;
+            Song *temp = song;
+            while (temp != nullptr && temp->id != idCancion)
+            {
+
+                temp = temp->next; // buscando playlist
+            }
+
+            if (temp == nullptr)
+            {
+                cout << "Cancion no encontrada" << endl;
+                return;
+            }
+
             ListSongs *newListSongs = new ListSongs();
-            newListSongs->song;           // Asignamos cancion
+            newListSongs->song = temp;    // Asignamos cancion
             newListSongs->next = nullptr; // se establece el campo null,lo que indica que no hay ningún otro nodo siguiente en la lista
             if (head == nullptr)
             {
@@ -103,7 +116,7 @@ void NewPlayList(PlayList *&head, int id, ListSongs *&listSongs, Song *&song)
     if (numSongs == 1)
     {
         // Llamar a la funcion ingresar cancion
-        addSongsPlaylist(listSongs, id, song);
+        addSongsPlaylist(nuevaPlaylist->listSongs, id, song);
     }
     cout << "Playlist creada exitosamente." << endl;
 }
@@ -182,10 +195,10 @@ void deletePlayListId(PlayList *&playList, int id)
 }
 // Actualizar playlist
 
-void listarPlaylistCancion(PlayList *&playlists)
+void listarPlaylistCancion(PlayList *&playlists, ListSongs *&listSongs)
 {
     int opcion = -1;
-    
+    int idPlaylist;
 
     while (opcion != 0)
     {
@@ -194,7 +207,7 @@ void listarPlaylistCancion(PlayList *&playlists)
         cout << "0.Regresar" << endl;
         cin >> opcion;
 
-         while (cin.fail() || opcion < 0 || opcion > 2)
+        while (cin.fail() || opcion < 0 || opcion > 2)
         {
             cin.clear();
             cin.ignore(256, '\n');
@@ -224,15 +237,48 @@ void listarPlaylistCancion(PlayList *&playlists)
             break;
 
         case 2:
-            if (playlists == nullptr)
+            // LISTAR LAS CANCIONES DE LA PLAY LIST
+
+            if (playlists != nullptr)
+            {
+                cout << "LISTA DE PLAYLIST" << endl;
+                PlayList *temp = playlists;
+                while (temp != nullptr)
+                {
+                    cout << "Nombre de la playlist: " << temp->name << "\nDescripcion: " << temp->description << "\nId: " << temp->id << endl;
+                    temp = temp->next;
+                }
+
+                cout << "Ingrese el id de la playlist que desea listar canciones: " << endl;
+                cin >> idPlaylist;
+                temp = playlists; // inicializar playlist desde el principio
+                while (temp != nullptr && temp->id != idPlaylist)
+                {
+
+                    temp = temp->next; // buscando playlist
+                }
+
+                if (temp == nullptr) // verificamos si encontro playlist
+                {
+                    cout << "Playlist no encontrada" << endl;
+                    return; // acabar la ejecucion no seguir
+                }
+
+                cout << "Nombre de la playlist: " << temp->name << endl;
+                ListSongs *listplaylist = temp->listSongs;
+
+                while (listplaylist != nullptr)
+                {
+                    cout << "Canciones de la playlist: " << listplaylist->song->name << "" << endl;
+                    listplaylist = listplaylist->next; // se actualiza cancionActual al siguiente nodo de la lista
+                }
+            }
+            else
             {
                 cout << "No existen playlist creadas, cree playlist 🎵" << endl;
             }
-            else
-            { // LISTAR LAS CANCIONES DE LA PLAY LIST
 
-            
-            }
+            break;
 
             break;
 
