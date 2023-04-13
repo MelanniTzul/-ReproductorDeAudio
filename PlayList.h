@@ -339,6 +339,7 @@ void addSongPlaylist(PlayList *&playlist, int id, Song *&song)
 void deleteSong(PlayList *&playlist, int id, ListSongs *&listSongs)
 {
     int idPlaylist;
+     int idCancion=-1;
     // LISTAR PLAYLIST
     if (playlist != nullptr)
     {
@@ -366,7 +367,7 @@ void deleteSong(PlayList *&playlist, int id, ListSongs *&listSongs)
             return; // acabar la ejecucion no seguir
         }
 
-        // Mostrar pleilis encontrada
+        // Mostrar playlis encontrada
         cout << "Nombre de la playlist: " << temp->name <<"id:\n" << temp->id<<endl;
         ListSongs *listplaylist = temp->listSongs; // obtener la lista de canciones
 
@@ -378,8 +379,7 @@ void deleteSong(PlayList *&playlist, int id, ListSongs *&listSongs)
             listplaylist = listplaylist->next; // se actualiza cancionActual al siguiente nodo de la lista
         }
 
-        
-        int idCancion=-1;
+        //Verificamos que haya canciones   
         if (listSongs== nullptr)
         {
 
